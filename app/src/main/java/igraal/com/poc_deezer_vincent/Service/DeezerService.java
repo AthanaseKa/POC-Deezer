@@ -1,4 +1,4 @@
-package igraal.com.poc_deezer_vincent;
+package igraal.com.poc_deezer_vincent.Service;
 
 import igraal.com.poc_deezer_vincent.Object.User;
 import retrofit2.Call;
