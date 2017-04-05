@@ -2,6 +2,7 @@ package igraal.com.poc_deezer_vincent.database;
 
 import igraal.com.poc_deezer_vincent.object.User;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import rx.Observable;
 
@@ -11,10 +12,8 @@ import rx.Observable;
 
 public class RealmManager {
     private static RealmManager instance;
-    //Realm realm;
 
     private RealmManager() {
-        //realm = Realm.getDefaultInstance();
     }
 
     public static RealmManager getInstance() {
@@ -37,6 +36,11 @@ public class RealmManager {
     public RealmResults<User> getAllUsers() {
         final RealmResults<User> users = Realm.getDefaultInstance().where(User.class).findAll();
         return users;
+    }
+
+    public User getUserById(String userId) {
+        User user = Realm.getDefaultInstance().where(User.class).equalTo("id", userId).findFirst();
+        return user;
     }
 
 }
