@@ -1,14 +1,14 @@
 package igraal.com.poc_deezer_vincent.manager;
 
+import igraal.com.poc_deezer_vincent.database.RealmManager;
 import igraal.com.poc_deezer_vincent.object.User;
 import igraal.com.poc_deezer_vincent.service.DeezerService;
 import io.realm.Realm;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
+import rx.Observable;
+
 
 /**
  * Created by vincent on 04/04/2017.
@@ -20,6 +20,7 @@ public class UserManager {
     private static UserManager instance;
     private Retrofit retrofit;
     private DeezerService service;
+    private RealmManager realmManager;
 
     private UserManager() {
         retrofit = new Retrofit.Builder()
@@ -29,19 +30,12 @@ public class UserManager {
                 .build();
 
         service = retrofit.create(DeezerService.class);
+        realmManager = RealmManager.getInstance();
     }
 
-    public void getUser(String input, Realm realm) {
-        service.getUser(input)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        user1 -> {
-                            insertUser(realm, user1);
-                        },
-                        error -> {
-                            Timber.e(error, error.getMessage());
-                        });
+    public Observable<User> getUser(String input) {
+        return service.getUser(input)
+                .flatMap(user -> realmManager.insertUser(user));
     }
 
     public static UserManager getInstance() {
@@ -51,15 +45,5 @@ public class UserManager {
             instance = new UserManager();
             return instance;
         }
-    }
-
-    private void insertUser(Realm realm, User user) {
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(user);
-        /*myUser.setName(user.getName());
-        myUser.setCountry(user.getCountry());
-        myUser.setId(user.getId());
-        myUser.setPicture(user.getPicture());*/
-        realm.commitTransaction();
     }
 }

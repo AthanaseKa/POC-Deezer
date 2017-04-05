@@ -15,14 +15,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import igraal.com.poc_deezer_vincent.R;
+import igraal.com.poc_deezer_vincent.database.RealmManager;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
 import igraal.com.poc_deezer_vincent.object.User;
-import igraal.com.poc_deezer_vincent.service.DeezerService;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,14 +39,12 @@ public class ResearchUser extends RxAppCompatActivity {
     Button button;
 
     Subscription subscription;
-    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getApplicationContext());
         setContentView(R.layout.research_user);
-        realm = Realm.getDefaultInstance();
         ButterKnife.bind(this);
     }
 
@@ -72,12 +67,20 @@ public class ResearchUser extends RxAppCompatActivity {
     @OnClick(R.id.research_user_button)
     public void retrieveUser() {
         UserManager userManager = UserManager.getInstance();
-        userManager.getUser(editText.getText().toString(), realm);
-        final RealmResults<User> users = realm.where(User.class).findAll();
-        for (int i = 0; i < users.size(); i++) {
-            Timber.e("QUERY = " + users.get(i).getName());
-        }
-    }
+        userManager.getUser(editText.getText().toString())
+                .subscribeOn(Schedulers.io())
+                //.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
+                        Timber.e(user.getName() + "  " + Thread.currentThread().getName());
+                    /*RealmResults<User> users = RealmManager.getInstance().getAllUsers();
+                    for (int i = 0; i < users.size(); i++) {
+                        Timber.e("QUERY " + users.get(i).getName());
+                    }*/
+                },
+                        error -> {
+                            Timber.e(error, error.getMessage());
+                        });
+   }
 
     @Override
     protected void onStart() {
