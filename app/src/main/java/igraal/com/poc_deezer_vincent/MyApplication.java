@@ -2,8 +2,6 @@ package igraal.com.poc_deezer_vincent;
 
 import android.app.Application;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 /**
@@ -16,5 +14,4 @@ public class MyApplication extends Application {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
     }
-
 }
