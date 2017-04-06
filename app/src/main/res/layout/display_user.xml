@@ -11,8 +11,8 @@
         android:weightSum="3">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
             android:id="@+id/display_user_header_imageview"
             android:layout_gravity="center"/>
 
