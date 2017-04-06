@@ -85,11 +85,11 @@ public class ResearchUserActivity extends RxAppCompatActivity {
 
     private void saveUserId(String user_id) {
         PreferenceManager.getDefaultSharedPreferences(this)
-                .edit().putString(Tools.preference_user_id, user_id).commit();
+                .edit().putString(Tools.PREFERENCE_USER_ID, user_id).commit();
     }
 
     private boolean checkIfUserAlreadyConnected() {
-        String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.preference_user_id, "");
+        String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.PREFERENCE_USER_ID, "");
         return user_id.length() > 0;
     }
 

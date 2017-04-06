@@ -28,6 +28,10 @@ public class UserManager {
                 .flatMap(user -> realmManager.insertUser(user));
     }
 
+    public Observable<User> getUserById(String userId) {
+        return  RealmManager.getInstance().getUserById(userId).asObservable().filter(user -> user != null);
+    }
+
     public static UserManager getInstance() {
         if (instance != null)
             return instance;

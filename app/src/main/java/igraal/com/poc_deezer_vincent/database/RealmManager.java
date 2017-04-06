@@ -38,9 +38,9 @@ public class RealmManager {
         return users;
     }
 
-    public User getUserById(String userId) {
+    public Observable<User> getUserById(String userId) {
         User user = Realm.getDefaultInstance().where(User.class).equalTo("id", userId).findFirst();
-        return user;
+        return Observable.just(user);
     }
 
 }

@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
-import igraal.com.poc_deezer_vincent.database.RealmManager;
+import igraal.com.poc_deezer_vincent.manager.UserManager;
 import igraal.com.poc_deezer_vincent.object.User;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,14 +45,13 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void loadUser() {
-        String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.preference_user_id, null);
-        Timber.e("USER ID PREFERENCES :" + user_id);
-        if (user_id == null)
+        String userId = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.PREFERENCE_USER_ID, null);
+        Timber.e("USER ID PREFERENCES :" + userId);
+        if (userId == null)
             noUserToLoad();
         else {
-            user = RealmManager.getInstance().getUserById(user_id).asObservable();
-            user.filter(user1 -> user1 != null)
-                    .observeOn(AndroidSchedulers.mainThread())
+            user = UserManager.getInstance().getUserById(userId);
+            user.observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             user1 -> {
                                 user_country.setText(user1.getCountry());

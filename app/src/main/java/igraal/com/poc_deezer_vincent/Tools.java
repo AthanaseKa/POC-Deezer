@@ -6,6 +6,6 @@ package igraal.com.poc_deezer_vincent;
 
 public class Tools {
 
-    public static final String preference_user_id = "USER_ID";
+    public static final String PREFERENCE_USER_ID = "USER_ID";
 
 }
