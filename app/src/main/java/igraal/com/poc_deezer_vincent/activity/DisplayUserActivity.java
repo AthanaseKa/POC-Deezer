@@ -16,6 +16,8 @@ import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
 import igraal.com.poc_deezer_vincent.database.RealmManager;
 import igraal.com.poc_deezer_vincent.object.User;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 /**
@@ -31,7 +33,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @BindView(R.id.display_user_name_textview)
     TextView user_name;
 
-    private User user;
+    private Observable <User> user;
 
 
     @Override
@@ -44,20 +46,26 @@ public class DisplayUserActivity extends RxAppCompatActivity {
 
     private void loadUser() {
         String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.preference_user_id, null);
+        Timber.e("USER ID PREFERENCES :" + user_id);
         if (user_id == null)
             noUserToLoad();
         else {
-            user = RealmManager.getInstance().getUserById(user_id);
-            Timber.e("USER ID PREFERENCES :" + user_id);
-            if (user != null) {
-                user_country.setText(user.getCountry());
-                user_name.setText(user.getName());
-                Glide
-                        .with(this)
-                        .load(user.getPicture())
-                        .centerCrop()
-                        .into(user_photo);
-            }
+            user = RealmManager.getInstance().getUserById(user_id).asObservable();
+            user.filter(user1 -> user1 != null)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            user1 -> {
+                                user_country.setText(user1.getCountry());
+                                user_name.setText(user1.getName());
+                                Glide
+                                        .with(this)
+                                        .load(user1.getPicture())
+                                        .centerCrop()
+                                        .into(user_photo);
+                            },
+                            error -> {
+                                Timber.e(error, error.getMessage());
+                            });
         }
     }
 
