@@ -78,9 +78,14 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void switchUser() {
+        deleteUser();
         Intent intent = new Intent(this, ResearchUserActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void deleteUser() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().remove(Tools.PREFERENCE_USER_ID).commit();
     }
 
     @Override
