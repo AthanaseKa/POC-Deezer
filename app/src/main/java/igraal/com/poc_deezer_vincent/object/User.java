@@ -1,15 +1,11 @@
 package igraal.com.poc_deezer_vincent.object;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by vincent on 03/04/2017.
  */
 
-public class User extends RealmObject {
-    @PrimaryKey
-    private String id;
+public class User {
+    private int id;
     private String name;
     private String country;
     private String picture;
@@ -42,11 +38,11 @@ public class User extends RealmObject {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

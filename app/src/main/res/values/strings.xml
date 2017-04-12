@@ -5,5 +5,5 @@
     <string name="research_user_editext_hint">User id</string>
     <string name="research_user_textview">Research an user</string>
     <string name="research_user_button">research</string>
-
+    <string name="research_user_error_msg">Wrong user id</string>
 </resources>
