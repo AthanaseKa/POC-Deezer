@@ -53,8 +53,6 @@ public class UserManager {
         RealmList<RealmPlaylist> myList = new RealmList<RealmPlaylist>();
         Realm.getInstance(realmManager.getConfiguration()).executeTransaction(realm -> {
             for (int i = 0; i < playlistList.size(); i++) {
-                //RealmPlaylist tempList = Realm.getInstance(realmManager.getConfiguration()).
-                //        createObject(RealmPlaylist.class, playlistList.get(i).getId());
                 RealmPlaylist tempList = new RealmPlaylist();
                 tempList.createFromPlayList(playlistList.get(i));
                 myList.add(tempList);
