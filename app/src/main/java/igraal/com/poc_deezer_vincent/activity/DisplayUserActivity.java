@@ -3,6 +3,8 @@ package igraal.com.poc_deezer_vincent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,8 +77,35 @@ public class DisplayUserActivity extends RxAppCompatActivity {
         Toast.makeText(this, "No user found", Toast.LENGTH_LONG).show();
     }
 
+    private void switchUser() {
+        deleteUser();
+        Intent intent = new Intent(this, ResearchUserActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void deleteUser() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().remove(Tools.PREFERENCE_USER_ID).commit();
+    }
+
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toolbar_menu_deconnection:
+                switchUser();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
