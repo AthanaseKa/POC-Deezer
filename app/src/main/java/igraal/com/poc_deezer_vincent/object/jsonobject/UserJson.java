@@ -1,16 +1,16 @@
-package igraal.com.poc_deezer_vincent.object;
+package igraal.com.poc_deezer_vincent.object.jsonobject;
 
 /**
  * Created by vincent on 03/04/2017.
  */
 
-public class User {
+public class UserJson {
     private int id;
     private String name;
     private String country;
     private String picture;
 
-    public User() {
+    public UserJson() {
 
     }
 

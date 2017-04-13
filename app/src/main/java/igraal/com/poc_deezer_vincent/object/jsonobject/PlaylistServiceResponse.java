@@ -1,4 +1,4 @@
-package igraal.com.poc_deezer_vincent.object;
+package igraal.com.poc_deezer_vincent.object.jsonobject;
 
 import java.util.List;
 
@@ -8,18 +8,18 @@ import java.util.List;
 
 public class PlaylistServiceResponse {
 
-    List<Playlist> data;
+    List<PlaylistJson> data;
     int total;
 
     PlaylistServiceResponse () {
 
     }
 
-    public List<Playlist> getData() {
+    public List<PlaylistJson> getData() {
         return data;
     }
 
-    public void setData(List<Playlist> data) {
+    public void setData(List<PlaylistJson> data) {
         this.data = data;
     }
 

@@ -1,6 +1,6 @@
 package igraal.com.poc_deezer_vincent.object.realmobject;
 
-import igraal.com.poc_deezer_vincent.object.User;
+import igraal.com.poc_deezer_vincent.object.jsonobject.UserJson;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -22,8 +22,8 @@ public class RealmUser extends RealmObject {
 
     }
 
-    public void createFromUser(User user) {
-        //this.id = user.getId();
+    public RealmUser(UserJson user) {
+        this.id = user.getId();
         this.name = user.getName();
         this.country = user.getCountry();
         this.picture = user.getPicture();

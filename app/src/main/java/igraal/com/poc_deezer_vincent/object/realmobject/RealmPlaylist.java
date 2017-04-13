@@ -1,6 +1,6 @@
 package igraal.com.poc_deezer_vincent.object.realmobject;
 
-import igraal.com.poc_deezer_vincent.object.Playlist;
+import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistJson;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -11,7 +11,6 @@ import io.realm.annotations.PrimaryKey;
 public class RealmPlaylist extends RealmObject{
     @PrimaryKey
     private int id;
-    //private int userid
     private String title;
     private String picture;
     private int nb_tracks;
@@ -20,8 +19,8 @@ public class RealmPlaylist extends RealmObject{
 
     }
 
-    public void createFromPlayList(Playlist playlist) {
-        //this.id = playlist.getId();
+    public RealmPlaylist(PlaylistJson playlist) {
+        this.id = playlist.getId();
         this.title = playlist.getTitle();
         this.picture = playlist.getPicture();
         this.nb_tracks = playlist.getNb_tracks();

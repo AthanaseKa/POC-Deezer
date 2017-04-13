@@ -18,10 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
-import igraal.com.poc_deezer_vincent.database.RealmManager;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,7 +38,7 @@ public class ResearchUserActivity extends RxAppCompatActivity {
     @BindView(R.id.research_user_button)
     Button button;
     @BindView(R.id.research_user_error_textview)
-    TextView error_title;
+    TextView errorTitle;
 
     Subscription subscription;
     int mUserId;
@@ -50,11 +48,6 @@ public class ResearchUserActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.research_user);
         Realm.init(getApplicationContext());
-        RealmConfiguration config = new RealmConfiguration
-                .Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        RealmManager.getInstance().setConfiguration(config);
         ButterKnife.bind(this);
     }
 
@@ -67,12 +60,12 @@ public class ResearchUserActivity extends RxAppCompatActivity {
                         try {
                             mUserId = Integer.valueOf(editText.getText().toString());
                             button.setEnabled(true);
-                            error_title.setVisibility(View.GONE);
+                            errorTitle.setVisibility(View.GONE);
                         } catch (NumberFormatException e) {
                             mUserId = -1;
                             button.setEnabled(false);
                             if (editText.getText().length() > 0)
-                                error_title.setVisibility(View.VISIBLE);
+                                errorTitle.setVisibility(View.VISIBLE);
                         }
                     },
                     error -> {
@@ -88,9 +81,9 @@ public class ResearchUserActivity extends RxAppCompatActivity {
         UserManager.getInstance().getUser(mUserId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindToLifecycle())
                 .subscribe(
                         user -> {
-                            Timber.e(user.getName() + "  " + user.getId() + " " + Thread.currentThread().getName());
                             saveUserId(user.getId());
                             switchActivity();
                 },

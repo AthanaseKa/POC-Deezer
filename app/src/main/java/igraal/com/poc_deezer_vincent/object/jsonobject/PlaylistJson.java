@@ -1,17 +1,17 @@
-package igraal.com.poc_deezer_vincent.object;
+package igraal.com.poc_deezer_vincent.object.jsonobject;
 
 /**
  * Created by vincent on 06/04/2017.
  */
 
-public class Playlist{
+public class PlaylistJson {
 
     private int id;
     private String title;
     private String picture;
     private int nb_tracks;
 
-    public Playlist() {
+    public PlaylistJson() {
 
     }
 

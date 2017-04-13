@@ -32,11 +32,11 @@ import timber.log.Timber;
 public class DisplayUserActivity extends RxAppCompatActivity {
 
     @BindView(R.id.display_user_country_textview)
-    TextView user_country;
+    TextView userCountry;
     @BindView(R.id.display_user_header_imageview)
-    ImageView user_photo;
+    ImageView userPicture;
     @BindView(R.id.display_user_name_textview)
-    TextView user_name;
+    TextView userName;
 
     private Observable <RealmUser> user;
 
@@ -58,8 +58,10 @@ public class DisplayUserActivity extends RxAppCompatActivity {
             user.observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             user1 -> {
-                                loadHeader(user1);
-                                retrievePlaylist(userId);
+                                if (user1 != null) {
+                                    loadHeader(user1);
+                                    retrievePlaylist(userId);
+                                }
                             },
                             error -> {
                                 Timber.e(error, error.getMessage());
@@ -68,13 +70,13 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void loadHeader(RealmUser user) {
-        user_country.setText(user.getCountry());
-        user_name.setText(user.getName());
+        userCountry.setText(user.getCountry());
+        userName.setText(user.getName());
         Glide
                 .with(this)
                 .load(user.getPicture())
                 .centerCrop()
-                .into(user_photo);
+                .into(userPicture);
     }
 
     private void noUserToLoad() {
