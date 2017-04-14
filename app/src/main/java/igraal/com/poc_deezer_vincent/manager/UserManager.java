@@ -6,6 +6,7 @@ import igraal.com.poc_deezer_vincent.database.RealmManager;
 import igraal.com.poc_deezer_vincent.network.UserClient;
 import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistJson;
 import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistServiceResponse;
+import igraal.com.poc_deezer_vincent.object.jsonobject.UserJson;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
 import igraal.com.poc_deezer_vincent.service.DeezerService;
@@ -34,12 +35,11 @@ public class UserManager {
         Observable<RealmUser> user = realmManager.getUserById(input);
         return user.flatMap(realmUser -> {
             if (realmUser == null) {
-                Timber.e("UserManager : service.getUser");
-                return service.getUser(input)
-                        .flatMap(userJson -> realmManager.insertUser(new RealmUser(userJson)));
+                Observable<UserJson> userJson = service.getUser(input);
+                        return userJson.filter(userJson1 -> userJson1.getName() != null)
+                                .flatMap(userJson1 -> realmManager.insertUser(new RealmUser(userJson1)));
             }
             else {
-                Timber.e("UserManager : user already exist");
                 return user;
             }
         });

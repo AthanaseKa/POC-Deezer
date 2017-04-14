@@ -3,6 +3,9 @@ package igraal.com.poc_deezer_vincent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -16,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
+import igraal.com.poc_deezer_vincent.adapter.PlaylistViewPagerAdapter;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
@@ -37,8 +41,14 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     ImageView userPicture;
     @BindView(R.id.display_user_name_textview)
     TextView userName;
+    @BindView(R.id.display_user_tablayout)
+    TabLayout tableLayout;
+    @BindView(R.id.display_user_viewpager)
+    ViewPager viewPager;
+
 
     private Observable <RealmUser> user;
+    private int userId;
 
 
     @Override
@@ -50,7 +60,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void loadUser() {
-        int userId = PreferenceManager.getDefaultSharedPreferences(this).getInt(Tools.PREFERENCE_USER_ID, -1);
+         userId = PreferenceManager.getDefaultSharedPreferences(this).getInt(Tools.PREFERENCE_USER_ID, -1);
         if (userId == -1)
             noUserToLoad();
         else {
@@ -79,6 +89,13 @@ public class DisplayUserActivity extends RxAppCompatActivity {
                 .into(userPicture);
     }
 
+    private void loadLists() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PlaylistViewPagerAdapter playlistViewPagerAdapter = new PlaylistViewPagerAdapter(fragmentManager, userId);
+        viewPager.setAdapter(playlistViewPagerAdapter);
+        tableLayout.setupWithViewPager(viewPager);
+    }
+
     private void noUserToLoad() {
         Intent intent = new Intent(this, ResearchUserActivity.class);
         startActivity(intent);
@@ -91,6 +108,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
         playlist.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(playlists -> {
+                    loadLists();
                 },
                     error -> {
                         Timber.e(error, error.getMessage());
