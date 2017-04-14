@@ -32,5 +32,13 @@
             android:id="@+id/research_user_button"
             android:enabled="false"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/research_user_error_msg"
+            android:visibility="gone"
+            android:id="@+id/research_user_error_textview"
+            android:gravity="center"/>
+
     </LinearLayout>
 </LinearLayout>
