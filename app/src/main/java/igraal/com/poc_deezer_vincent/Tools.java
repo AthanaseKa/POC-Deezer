@@ -8,4 +8,6 @@ public class Tools {
 
     public static final String PREFERENCE_USER_ID = "USER_ID";
 
+    public static final String BUNDLE_USER_ID = "USER_ID";
+
 }
