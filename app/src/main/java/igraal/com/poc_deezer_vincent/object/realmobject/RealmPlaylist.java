@@ -40,7 +40,7 @@ public class RealmPlaylist extends RealmObject{
         this.id = playlistServiceResponse.getId();
         this.title = playlistServiceResponse.getTitle();
         this.picture = playlistServiceResponse.getPicture();
-        this.nb_tracks = playlistServiceResponse.getNbTracks();
+        this.nb_tracks = playlistServiceResponse.getNb_tracks();
         this.description = playlistServiceResponse.getDescription();
         this.titleRealmList = transformTitleList(playlistServiceResponse.getTracks().getData());
         this.creatorName = playlistServiceResponse.getCreator().getName();

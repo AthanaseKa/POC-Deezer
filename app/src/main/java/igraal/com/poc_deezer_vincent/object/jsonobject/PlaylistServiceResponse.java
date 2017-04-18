@@ -12,7 +12,7 @@ public class PlaylistServiceResponse {
     int id;
     String title;
     String description;
-    int nbTracks;
+    int nb_tracks;
     String picture;
 
     public PlaylistServiceResponse() {
@@ -59,12 +59,12 @@ public class PlaylistServiceResponse {
         this.description = description;
     }
 
-    public int getNbTracks() {
-        return nbTracks;
+    public int getNb_tracks() {
+        return nb_tracks;
     }
 
-    public void setNbTracks(int nbTracks) {
-        this.nbTracks = nbTracks;
+    public void setNb_tracks(int nb_tracks) {
+        this.nb_tracks = nb_tracks;
     }
 
     public String getPicture() {

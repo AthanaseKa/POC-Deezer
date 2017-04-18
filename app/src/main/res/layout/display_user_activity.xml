@@ -20,14 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/display_user_name_textview"
-            android:text="User Name"
             android:gravity="center"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/display_user_country_textview"
-            android:text="Country"
             android:gravity="center"/>
 
     </LinearLayout>

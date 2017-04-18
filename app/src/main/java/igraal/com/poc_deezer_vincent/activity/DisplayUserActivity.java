@@ -54,7 +54,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.display_user);
+        setContentView(R.layout.display_user_activity);
         ButterKnife.bind(this);
         loadUser();
     }
