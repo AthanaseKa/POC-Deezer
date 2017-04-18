@@ -29,8 +29,8 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
-                .subscribe(playlist1 -> {
-                    Timber.e(playlist1.toString());
+                .subscribe(playlist -> {
+                    Timber.e(playlist.toString());
                 }, error -> {
                     Timber.e(error, error.getMessage());
                 });
