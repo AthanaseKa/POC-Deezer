@@ -23,7 +23,7 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
     private AdapterIdCallBack callBack;
     private Context context;
 
-    public PlaylistCardViewAdapter(RealmList<RealmPlaylist> playlist, Context context) {
+    public PlaylistCardViewAdapter(RealmList<RealmPlaylist> playlist, AdapterIdCallBack callBack, Context context) {
         this.playlist = playlist;
         this.callBack = callBack;
         this.context = context;
@@ -47,7 +47,7 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
                 .centerCrop()
                 .into(holder.playlistImageView);
 
-        holder.cardView.setOnClickListener(v -> {
+        holder.cardview.setOnClickListener(v -> {
                     callBack.onCallBack(playlist.get(position).getId());
                 }
         );
