@@ -65,6 +65,7 @@ public class PlaylistServiceResponse {
 
     public void setNb_tracks(int nb_tracks) {
         this.nb_tracks = nb_tracks;
+
     }
 
     public String getPicture() {

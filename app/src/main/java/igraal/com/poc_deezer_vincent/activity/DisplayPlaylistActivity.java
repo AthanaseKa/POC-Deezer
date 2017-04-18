@@ -41,8 +41,7 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
     }
 
     private void retrievePlaylist() {
-
-         PlaylistManager.getInstance()
+        PlaylistManager.getInstance()
                 .getPlaylistById(getIntent().getExtras().getInt(Tools.INTENT_PLAYLIST_ID))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -62,5 +61,4 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
         Glide.with(this).load(playlist.getPicture()).centerCrop().into(ivHeaderPicture);
 
     }
-
 }
