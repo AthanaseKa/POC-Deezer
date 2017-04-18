@@ -20,10 +20,12 @@ import io.realm.RealmList;
 public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardViewAdapterViewHolder> {
 
     private RealmList <RealmPlaylist> playlist;
+    private AdapterIdCallBack callBack;
     private Context context;
 
     public PlaylistCardViewAdapter(RealmList<RealmPlaylist> playlist, Context context) {
         this.playlist = playlist;
+        this.callBack = callBack;
         this.context = context;
     }
 
@@ -44,6 +46,11 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
                 .load(playlist.get(position).getPicture())
                 .centerCrop()
                 .into(holder.playlistImageView);
+
+        holder.cardView.setOnClickListener(v -> {
+                    callBack.onCallBack(playlist.get(position).getId());
+                }
+        );
     }
 
     @Override

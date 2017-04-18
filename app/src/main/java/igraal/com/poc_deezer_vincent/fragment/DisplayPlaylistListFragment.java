@@ -1,5 +1,6 @@
 package igraal.com.poc_deezer_vincent.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
+import igraal.com.poc_deezer_vincent.activity.DisplayPlaylistActivity;
+import igraal.com.poc_deezer_vincent.adapter.AdapterIdCallBack;
 import igraal.com.poc_deezer_vincent.adapter.PlaylistCardViewAdapter;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
@@ -24,13 +27,21 @@ import timber.log.Timber;
  * Created by vincent on 12/04/2017.
  */
 
-public class DisplayPlaylistFragment extends RxFragment {
+public class DisplayPlaylistListFragment extends RxFragment implements AdapterIdCallBack {
 
     @BindView(R.id.display_user_playlist_recyclerview)
     RecyclerView mRecyclerView;
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    @Override
+    public void onCallBack(int id) {
+        Intent intent = new Intent(getActivity(), DisplayPlaylistActivity.class);
+        intent.putExtra(Tools.INTENT_PLAYLIST_ID, id);
+        getActivity().startActivity(intent);
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +80,7 @@ public class DisplayPlaylistFragment extends RxFragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new PlaylistCardViewAdapter(realmUser.getPlaylists(), getContext());
+        mAdapter = new PlaylistCardViewAdapter(realmUser.getPlaylists(), this, getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

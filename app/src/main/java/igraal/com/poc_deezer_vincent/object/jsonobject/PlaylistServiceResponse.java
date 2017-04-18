@@ -1,33 +1,77 @@
 package igraal.com.poc_deezer_vincent.object.jsonobject;
 
-import java.util.List;
-
 /**
- * Created by vincent on 07/04/2017.
+ * Created by vincent on 14/04/2017.
  */
 
 public class PlaylistServiceResponse {
 
-    List<PlaylistJson> data;
-    int total;
+    TracksJson tracks;
+    CreatorJson creator;
 
-    PlaylistServiceResponse () {
+    int id;
+    String title;
+    String description;
+    int nbTracks;
+    String picture;
+
+    public PlaylistServiceResponse() {
 
     }
 
-    public List<PlaylistJson> getData() {
-        return data;
+    public TracksJson getTracks() {
+        return tracks;
     }
 
-    public void setData(List<PlaylistJson> data) {
-        this.data = data;
+    public void setTracks(TracksJson tracks) {
+        this.tracks = tracks;
     }
 
-    public int getTotal() {
-        return total;
+    public CreatorJson getCreator() {
+        return creator;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCreator(CreatorJson creator) {
+        this.creator = creator;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getNbTracks() {
+        return nbTracks;
+    }
+
+    public void setNbTracks(int nbTracks) {
+        this.nbTracks = nbTracks;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

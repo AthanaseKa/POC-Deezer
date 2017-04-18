@@ -3,9 +3,9 @@ package igraal.com.poc_deezer_vincent.manager;
 import java.util.List;
 
 import igraal.com.poc_deezer_vincent.database.RealmManager;
-import igraal.com.poc_deezer_vincent.network.UserClient;
+import igraal.com.poc_deezer_vincent.network.DeezerClient;
 import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistJson;
-import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistServiceResponse;
+import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistListServiceResponse;
 import igraal.com.poc_deezer_vincent.object.jsonobject.UserJson;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
@@ -27,7 +27,7 @@ public class UserManager {
     private RealmManager realmManager;
 
     private UserManager() {
-        service = UserClient.getInstance().getService();
+        service = DeezerClient.getInstance().getService();
         realmManager = RealmManager.getInstance();
     }
 
@@ -50,7 +50,7 @@ public class UserManager {
     }
 
     public Observable <RealmList<RealmPlaylist>> getUserPlaylists(int userId) {
-        Observable <PlaylistServiceResponse> playlistServiceResponseObservable = service.getUserPlaylist(userId);
+        Observable <PlaylistListServiceResponse> playlistServiceResponseObservable = service.getUserPlaylist(userId);
         return  playlistServiceResponseObservable
                 .flatMap(playlistServiceResponse -> formatUserPlaylist(playlistServiceResponse.getData()))
                 .flatMap(playlistList -> realmManager.updateCurrentUserPlaylist(userId, playlistList))
