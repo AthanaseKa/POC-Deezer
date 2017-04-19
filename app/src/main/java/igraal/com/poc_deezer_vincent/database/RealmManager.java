@@ -54,9 +54,9 @@ public class RealmManager {
         });
     }
 
-    public Observable<RealmUser> updateCurrentUserPlaylist(int userId, RealmList<RealmPlaylist> playlists) {
+    public Observable<RealmUser> updateUserPlaylistData(int userId, RealmList<RealmPlaylist> playlists) {
         return Observable.create(subscriber -> {
-            Realm realmInstance = Realm.getDefaultInstance();
+           Realm realmInstance = Realm.getDefaultInstance();
             RealmUser user = realmInstance.where(RealmUser.class).equalTo("id", userId).findFirst();
             realmInstance.beginTransaction();
             if (user != null) {

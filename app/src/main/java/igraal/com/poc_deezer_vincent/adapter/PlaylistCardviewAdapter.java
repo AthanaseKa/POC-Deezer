@@ -1,6 +1,7 @@
 package igraal.com.poc_deezer_vincent.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import com.bumptech.glide.Glide;
 
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.adapter.viewholder.PlaylistCardViewAdapterViewHolder;
-import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
-import io.realm.RealmList;
+import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by vincent on 13/04/2017.
@@ -19,14 +22,31 @@ import io.realm.RealmList;
 
 public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardViewAdapterViewHolder> {
 
-    private RealmList <RealmPlaylist> playlist;
+    private RealmUser realmUser;
     private AdapterIdCallBack callBack;
     private Context context;
+    private AdapterLoadMore adapterLoadMore;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView recyclerView;
 
-    public PlaylistCardViewAdapter(RealmList<RealmPlaylist> playlist, AdapterIdCallBack callBack, Context context) {
-        this.playlist = playlist;
+    private boolean loading = false;
+    private boolean loadMore = true;
+    private int index = 25;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+
+    public PlaylistCardViewAdapter(RealmUser realmUser, AdapterIdCallBack callBack,
+                                   Context context, AdapterLoadMore loadMore,
+                                   RecyclerView recyclerView) {
+        this.realmUser = realmUser;
         this.callBack = callBack;
         this.context = context;
+        this.adapterLoadMore = loadMore;
+        this.recyclerView = recyclerView;
+        if (this.recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            this.linearLayoutManager = (LinearLayoutManager) this.recyclerView.getLayoutManager();
+        }
+
     }
 
     @Override
@@ -39,23 +59,54 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
 
     @Override
     public void onBindViewHolder(PlaylistCardViewAdapterViewHolder holder, int position) {
-        holder.playlistTitle.setText(playlist.get(position).getTitle());
-        holder.playlistTracksNb.setText(Integer.toString(playlist.get(position).getNb_tracks()));
-        Glide
-                .with(context)
-                .load(playlist.get(position).getPicture())
-                .centerCrop()
-                .into(holder.playlistImageView);
+        holder.playlistTitle.setText(realmUser.getPlaylists().get(position).getTitle());
+        holder.playlistTracksNb.setText(Integer.toString(realmUser.getPlaylists().get(position).getNb_tracks()));
+        Glide.with(context).load(realmUser.getPlaylists().get(position).getPicture()).centerCrop().into(holder.playlistImageView);
         
         holder.cardview.setOnClickListener(v -> {
-                    callBack.onCallBack(playlist.get(position).getId());
+                    callBack.onCallBack(realmUser.getPlaylists().get(position).getId());
                 }
         );
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy > 0)
+                {
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                    if (!loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount && loadMore)
+                    {
+                        loading = true;
+                        Timber.e(Integer.toString(index));
+                        adapterLoadMore.loadMore(index, realmUser.getId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(playlists -> {
+                                    if (playlists.size() > 0) {
+                                        realmUser.getPlaylists().addAll(playlists);
+                                        notifyItemRangeChanged(index, realmUser.getPlaylists().size());
+                                        index = index + 25;
+                                    } if (playlists.size() == 0) {
+                                        loadMore = false;
+                                    }
+                                    loading = false;
+                                }, error -> {
+                                    Timber.e(error, error.getMessage());
+                                });
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return playlist.size();
+        return realmUser.getPlaylists().size();
     }
+
+
 }
 

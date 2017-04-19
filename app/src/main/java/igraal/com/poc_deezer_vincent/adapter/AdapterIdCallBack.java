@@ -5,5 +5,5 @@ package igraal.com.poc_deezer_vincent.adapter;
  */
 
 public interface AdapterIdCallBack {
-    public void onCallBack(int id);
+    public void onCallBack(long id);
 }

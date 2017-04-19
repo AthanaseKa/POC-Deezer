@@ -9,7 +9,7 @@ public class PlaylistServiceResponse {
     TracksJson tracks;
     CreatorJson creator;
 
-    int id;
+    long id;
     String title;
     String description;
     int nb_tracks;
@@ -35,11 +35,11 @@ public class PlaylistServiceResponse {
         this.creator = creator;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
