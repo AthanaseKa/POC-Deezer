@@ -24,13 +24,13 @@ import timber.log.Timber;
 public class DisplayPlaylistActivity extends RxAppCompatActivity {
 
     @BindView(R.id.display_playlist_title_textview)
-    TextView title;
+    TextView tvTitle;
     @BindView(R.id.display_playlist_header_imageview)
-    ImageView headerPicture;
+    ImageView ivHeaderPicture;
     @BindView(R.id.display_playlist_creatorname_textview)
-    TextView creatorName;
+    TextView tvCreatorName;
     @BindView(R.id.display_playlist_tracksnumber_textview)
-    TextView tracksNumber;
+    TextView tvTracksNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +56,10 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
     }
 
     private void loadPlaylist(RealmPlaylist playlist) {
-        title.setText(playlist.getTitle());
-        creatorName.setText(playlist.getCreatorName());
-        tracksNumber.setText(Integer.toString(playlist.getNb_tracks()));
-        Glide
-                .with(this)
-                .load(playlist.getPicture())
-                .centerCrop()
-                .into(headerPicture);
+        tvTitle.setText(playlist.getTitle());
+        tvCreatorName.setText(playlist.getCreatorName());
+        tvTracksNumber.setText(Integer.toString(playlist.getNb_tracks()));
+        Glide.with(this).load(playlist.getPicture()).centerCrop().into(ivHeaderPicture);
 
     }
 
