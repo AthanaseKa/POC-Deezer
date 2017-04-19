@@ -23,8 +23,11 @@ public class PlaylistCardViewAdapterViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.display_user_playlist_cardview_image)
     public ImageView playlistImageView;
 
+    public View cardview;
+
     public PlaylistCardViewAdapterViewHolder(View view) {
         super(view);
         ButterKnife.bind(this, view);
+        cardview = view;
     }
 }
