@@ -46,7 +46,7 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
                 .load(playlist.get(position).getPicture())
                 .centerCrop()
                 .into(holder.playlistImageView);
-
+        
         holder.cardview.setOnClickListener(v -> {
                     callBack.onCallBack(playlist.get(position).getId());
                 }

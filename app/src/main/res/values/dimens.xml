@@ -4,4 +4,6 @@
     <dimen name="playlist_cardview_size">50dp</dimen>
     <dimen name="playlist_cardview_text_padding">12dp</dimen>
     <dimen name="playlist_cardview_layout_padding">6dp</dimen>
+
+    <dimen name="playlist_header_padding">6dp</dimen>
 </resources>
