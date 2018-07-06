@@ -8,7 +8,6 @@ import igraal.com.poc_deezer_vincent.object.jsonobject.TitleJson;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import timber.log.Timber;
 
 /**
  * Created by vincent on 07/04/2017.
@@ -16,7 +15,7 @@ import timber.log.Timber;
 
 public class RealmPlaylist extends RealmObject{
     @PrimaryKey
-    private int id;
+    private long id;
     private String title;
     private String picture;
     private int nb_tracks;
@@ -51,13 +50,12 @@ public class RealmPlaylist extends RealmObject{
         for (int i = 0; i < titleJson.size(); i++) {
             RealmTitle realmTitle = new RealmTitle(titleJson.get(i));
             myList.add(realmTitle);
-            Timber.e("PlaylistJson, element " + Integer.valueOf(i) + " " + realmTitle.getTitle());
         }
         return myList;
     }
 
     public String toString() {
-        return ("id: " + Integer.toString(id) +
+        return ("id: " + Long.toString(id) +
                 " title: " + title +
                 " picture : " + picture +
                 " nb_tracks : " + Integer.toString(nb_tracks) +
@@ -91,11 +89,11 @@ public class RealmPlaylist extends RealmObject{
         this.titleRealmList = titleRealmList;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

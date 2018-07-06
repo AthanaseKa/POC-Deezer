@@ -6,6 +6,7 @@ import igraal.com.poc_deezer_vincent.object.jsonobject.PlaylistServiceResponse;
 import igraal.com.poc_deezer_vincent.object.jsonobject.UserJson;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -20,5 +21,8 @@ public interface DeezerService {
     Observable <PlaylistListServiceResponse> getUserPlaylist(@Path("userid") int userId);
 
     @GET("playlist/{playlistId}")
-    Observable <PlaylistServiceResponse> getPlaylist(@Path("playlistId") int playlistId);
+    Observable <PlaylistServiceResponse> getPlaylist(@Path("playlistId") long playlistId);
+
+    @GET("user/{userid}/playlists")
+    Observable<PlaylistListServiceResponse> getNextUserPlaylist(@Path("userid") int userId, @Query("index") int index);
 }

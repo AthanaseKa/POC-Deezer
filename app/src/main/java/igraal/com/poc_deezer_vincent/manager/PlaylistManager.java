@@ -31,7 +31,7 @@ public class PlaylistManager {
         }
     }
 
-    public Observable<RealmPlaylist> getPlaylistById(int playlistId) {
+    public Observable<RealmPlaylist> getPlaylistById(long playlistId) {
         Observable<PlaylistServiceResponse> playlistServiceResponseObservable = service.getPlaylist(playlistId);
         return playlistServiceResponseObservable.flatMap(playlistServiceResponse ->
                 Observable.just(new RealmPlaylist(playlistServiceResponse)));

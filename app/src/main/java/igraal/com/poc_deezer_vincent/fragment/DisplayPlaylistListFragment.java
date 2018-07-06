@@ -16,9 +16,13 @@ import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
 import igraal.com.poc_deezer_vincent.activity.DisplayPlaylistActivity;
 import igraal.com.poc_deezer_vincent.adapter.AdapterIdCallBack;
+import igraal.com.poc_deezer_vincent.adapter.AdapterLoadMore;
 import igraal.com.poc_deezer_vincent.adapter.PlaylistCardViewAdapter;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
+import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
+import io.realm.RealmList;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -27,16 +31,22 @@ import timber.log.Timber;
  * Created by vincent on 12/04/2017.
  */
 
-public class DisplayPlaylistListFragment extends RxFragment implements AdapterIdCallBack {
+public class DisplayPlaylistListFragment extends RxFragment implements AdapterIdCallBack, AdapterLoadMore {
 
     @BindView(R.id.display_user_playlist_recyclerview)
     RecyclerView mRecyclerView;
 
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
+
 
     @Override
-    public void onCallBack(int id) {
+    public Observable<RealmList<RealmPlaylist>> loadMore(int index, int id) {
+        return UserManager.getInstance().getNextPlaylists(index, id);
+    }
+
+    @Override
+    public void onCallBack(long id) {
         Intent intent = new Intent(getActivity(), DisplayPlaylistActivity.class);
         intent.putExtra(Tools.INTENT_PLAYLIST_ID, id);
         getActivity().startActivity(intent);
@@ -80,7 +90,7 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new PlaylistCardViewAdapter(realmUser.getPlaylists(), this, getContext());
+        mAdapter = new PlaylistCardViewAdapter(realmUser, this, getContext(), this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

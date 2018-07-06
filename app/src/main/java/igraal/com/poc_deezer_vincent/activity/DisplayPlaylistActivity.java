@@ -1,6 +1,8 @@
 package igraal.com.poc_deezer_vincent.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
+import igraal.com.poc_deezer_vincent.adapter.TitlesCardViewAdapter;
 import igraal.com.poc_deezer_vincent.manager.PlaylistManager;
 import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,6 +35,12 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
     @BindView(R.id.display_playlist_tracksnumber_textview)
     TextView tvTracksNumber;
 
+    @BindView(R.id.display_playlist_recyclerview)
+    RecyclerView mRecyclerView;
+
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +50,15 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
     }
 
     private void retrievePlaylist() {
-
-         PlaylistManager.getInstance()
-                .getPlaylistById(getIntent().getExtras().getInt(Tools.INTENT_PLAYLIST_ID))
+        PlaylistManager.getInstance()
+                .getPlaylistById(getIntent().getExtras().getLong(Tools.INTENT_PLAYLIST_ID))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
                 .subscribe(playlist -> {
                     Timber.e(playlist.toString());
                     loadPlaylist(playlist);
+                    initRecyclerView(playlist);
                 }, error -> {
                     Timber.e(error, error.getMessage());
                 });
@@ -63,4 +72,11 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
 
     }
 
+    private void initRecyclerView(RealmPlaylist realmPlaylist) {
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new TitlesCardViewAdapter(realmPlaylist.getTitleRealmList());
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }

@@ -46,7 +46,6 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @BindView(R.id.display_user_viewpager)
     ViewPager viewPager;
 
-
     private Observable <RealmUser> user;
     private int userId;
 

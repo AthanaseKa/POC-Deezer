@@ -12,7 +12,6 @@ import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
 import igraal.com.poc_deezer_vincent.service.DeezerService;
 import io.realm.RealmList;
 import rx.Observable;
-import timber.log.Timber;
 
 
 /**
@@ -52,20 +51,26 @@ public class UserManager {
     public Observable <RealmList<RealmPlaylist>> getUserPlaylists(int userId) {
         Observable <PlaylistListServiceResponse> playlistServiceResponseObservable = service.getUserPlaylist(userId);
         return  playlistServiceResponseObservable
-                .flatMap(playlistServiceResponse -> formatUserPlaylist(playlistServiceResponse.getData()))
-                .flatMap(playlistList -> realmManager.updateCurrentUserPlaylist(userId, playlistList))
+                .flatMap(playlistListServiceResponse -> formatUserPlaylist(playlistListServiceResponse.getData()))
+                .flatMap(playlists -> realmManager.updateUserPlaylistData(userId, playlists))
                 .flatMap(user -> Observable.just(user.getPlaylists()));
+    }
+
+    public Observable <RealmList<RealmPlaylist>> getNextPlaylists(int index, int userId) {
+        Observable <PlaylistListServiceResponse> playlistListServiceResponseObservable = service.getNextUserPlaylist(userId, index);
+        return playlistListServiceResponseObservable.flatMap(playlistListServiceResponse ->
+                formatUserPlaylist(playlistListServiceResponse.getData()));
     }
 
     public Observable<RealmList<RealmPlaylist>> formatUserPlaylist(List<PlaylistJson> playlistList) {
         RealmList<RealmPlaylist> myList = new RealmList<RealmPlaylist>();
-            for (int i = 0; i < playlistList.size(); i++) {
-                RealmPlaylist realmPlaylist = new RealmPlaylist(playlistList.get(i));
-                myList.add(realmPlaylist);
-                Timber.e("PlaylistJson, element " + Integer.valueOf(i) + " " + realmPlaylist.getTitle());
-            }
+        for (int i = 0; i < playlistList.size(); i++) {
+            RealmPlaylist realmPlaylist = new RealmPlaylist(playlistList.get(i));
+            myList.add(realmPlaylist);
+        }
         return Observable.just(myList);
     }
+
 
     public static UserManager getInstance() {
         if (instance != null)

@@ -10,9 +10,18 @@ public class PlaylistListServiceResponse {
 
     List<PlaylistJson> data;
     int total;
+    String next;
 
     PlaylistListServiceResponse() {
 
+    }
+
+    public String getNext() {
+        return next;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
     }
 
     public List<PlaylistJson> getData() {
