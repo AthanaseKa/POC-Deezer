@@ -3,6 +3,9 @@ package igraal.com.poc_deezer_vincent.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -16,10 +19,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import igraal.com.poc_deezer_vincent.R;
 import igraal.com.poc_deezer_vincent.Tools;
+import igraal.com.poc_deezer_vincent.adapter.PlaylistViewPagerAdapter;
 import igraal.com.poc_deezer_vincent.manager.UserManager;
-import igraal.com.poc_deezer_vincent.object.User;
+import igraal.com.poc_deezer_vincent.object.realmobject.RealmPlaylist;
+import igraal.com.poc_deezer_vincent.object.realmobject.RealmUser;
+import io.realm.RealmList;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -29,13 +36,19 @@ import timber.log.Timber;
 public class DisplayUserActivity extends RxAppCompatActivity {
 
     @BindView(R.id.display_user_country_textview)
-    TextView user_country;
+    TextView userCountry;
     @BindView(R.id.display_user_header_imageview)
-    ImageView user_photo;
+    ImageView userPicture;
     @BindView(R.id.display_user_name_textview)
-    TextView user_name;
+    TextView userName;
+    @BindView(R.id.display_user_tablayout)
+    TabLayout tableLayout;
+    @BindView(R.id.display_user_viewpager)
+    ViewPager viewPager;
 
-    private Observable <User> user;
+
+    private Observable <RealmUser> user;
+    private int userId;
 
 
     @Override
@@ -47,22 +60,18 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void loadUser() {
-        String userId = PreferenceManager.getDefaultSharedPreferences(this).getString(Tools.PREFERENCE_USER_ID, null);
-        Timber.e("USER ID PREFERENCES :" + userId);
-        if (userId == null)
+         userId = PreferenceManager.getDefaultSharedPreferences(this).getInt(Tools.PREFERENCE_USER_ID, -1);
+        if (userId == -1)
             noUserToLoad();
         else {
             user = UserManager.getInstance().getUserById(userId);
             user.observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             user1 -> {
-                                user_country.setText(user1.getCountry());
-                                user_name.setText(user1.getName());
-                                Glide
-                                        .with(this)
-                                        .load(user1.getPicture())
-                                        .centerCrop()
-                                        .into(user_photo);
+                                if (user1 != null) {
+                                    loadHeader(user1);
+                                    retrievePlaylist(userId);
+                                }
                             },
                             error -> {
                                 Timber.e(error, error.getMessage());
@@ -70,11 +79,40 @@ public class DisplayUserActivity extends RxAppCompatActivity {
         }
     }
 
+    private void loadHeader(RealmUser user) {
+        userCountry.setText(user.getCountry());
+        userName.setText(user.getName());
+        Glide
+                .with(this)
+                .load(user.getPicture())
+                .centerCrop()
+                .into(userPicture);
+    }
+
+    private void loadLists() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PlaylistViewPagerAdapter playlistViewPagerAdapter = new PlaylistViewPagerAdapter(fragmentManager, userId);
+        viewPager.setAdapter(playlistViewPagerAdapter);
+        tableLayout.setupWithViewPager(viewPager);
+    }
+
     private void noUserToLoad() {
         Intent intent = new Intent(this, ResearchUserActivity.class);
         startActivity(intent);
         finish();
         Toast.makeText(this, "No user found", Toast.LENGTH_LONG).show();
+    }
+
+    private void retrievePlaylist(int userId) {
+        Observable<RealmList<RealmPlaylist>> playlist = UserManager.getInstance().getUserPlaylists(userId);
+        playlist.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(playlists -> {
+                    loadLists();
+                },
+                    error -> {
+                        Timber.e(error, error.getMessage());
+                });
     }
 
     private void switchUser() {
