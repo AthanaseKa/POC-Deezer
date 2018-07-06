@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import igraal.com.poc_deezer_vincent.Tools;
 import igraal.com.poc_deezer_vincent.fragment.DisplayAlbumsFragment;
-import igraal.com.poc_deezer_vincent.fragment.DisplayPlaylistFragment;
+import igraal.com.poc_deezer_vincent.fragment.DisplayPlaylistListFragment;
 
 /**
  * Created by vincent on 13/04/2017.
@@ -28,7 +28,7 @@ public class PlaylistViewPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment = new Fragment();
         switch (position) {
             case 0:
-                fragment = new DisplayPlaylistFragment();
+                fragment = new DisplayPlaylistListFragment();
                 break;
             case 1:
                 fragment = new DisplayAlbumsFragment();

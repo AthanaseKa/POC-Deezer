@@ -46,7 +46,7 @@ public class ResearchUserActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.research_user);
+        setContentView(R.layout.research_user_activity);
         Realm.init(getApplicationContext());
         ButterKnife.bind(this);
     }

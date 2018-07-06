@@ -9,14 +9,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
  * Created by vincent on 05/04/2017.
  */
 
-public class UserClient {
+public class DeezerClient {
 
-    private static UserClient instance;
+    private static DeezerClient instance;
     private Retrofit retrofit;
     private DeezerService service;
     private final String URL = "http://api.deezer.com/";
 
-    private UserClient() {
+    private DeezerClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -26,11 +26,11 @@ public class UserClient {
         service = retrofit.create(DeezerService.class);
     }
 
-    public static UserClient getInstance() {
+    public static DeezerClient getInstance() {
         if (instance != null)
             return instance;
         else {
-            instance = new UserClient();
+            instance = new DeezerClient();
             return instance;
         }
     }

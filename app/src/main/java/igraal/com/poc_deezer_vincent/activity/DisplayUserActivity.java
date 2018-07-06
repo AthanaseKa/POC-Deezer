@@ -46,7 +46,6 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @BindView(R.id.display_user_viewpager)
     ViewPager viewPager;
 
-
     private Observable <RealmUser> user;
     private int userId;
 
@@ -54,7 +53,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.display_user);
+        setContentView(R.layout.display_user_activity);
         ButterKnife.bind(this);
         loadUser();
     }
