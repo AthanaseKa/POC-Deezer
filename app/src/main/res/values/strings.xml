@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">POC-Deezer-Vincent</string>
-
+    <string name="app_name">POC-Deezer</string>
 
     <string name="research_user_editext_hint">User id</string>
     <string name="research_user_textview">Research an user</string>

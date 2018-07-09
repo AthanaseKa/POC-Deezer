@@ -1,17 +1,88 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /Users/vincent/Library/Android/sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+#Retrofit rules
+-dontwarn com.squareup.okhttp.**
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keep interface retrofit2.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+-keepattributes Signature
+-keepattributes Exceptions
 
-# Add any project specific keep options here:
+#Facebook Rules
+-keep class com.facebook.** { *; }
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+#Glide with OKHttp
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class com.bumptech.glide.integration.okhttp.OkHttpGlideModule
+
+#OKHTTP
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.**
+-dontwarn okio.**
+
+#Realm
+-keep class io.realm.annotations.RealmModule
+-keep @io.realm.annotations.RealmModule class *
+-keep class io.realm.internal.Keep
+-keep @io.realm.internal.Keep class * { *; }
+-dontwarn javax.**
+-dontwarn io.realm.**
+
+#Fabric
+##Crashlytics
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes SourceFile,LineNumberTable,*Annotation*
+-keep public class * extends java.lang.Exception
+
+#Butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+#Moshi
+-keep class com.squareup.moshi.** { *; }
+-keep interface com.squareup.moshi.** { *; }
+-dontwarn com.squareup.moshi.**
+-keepclassmembers class ** {
+    @com.squareup.moshi.FromJson *;
+    @com.squareup.moshi.ToJson *;
+}
+
+#Retrolambda
+-dontwarn java.lang.invoke.*
+
+#RX Android
+-dontwarn rx.internal.util.unsafe.**
+-keepclassmembers class rx.internal.util.unsafe.** {
+    long producerIndex;
+    long consumerIndex;
+}
+
+#Google Services
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+
+#Entities
+-keep class fr.snapp.igraal.entity.** { *; }
+-keep class fr.snapp.igraal.network.request.** { *; }
+
+-dontwarn android.support.v8.renderscript.*
+-keepclassmembers class android.support.v8.renderscript.RenderScript {
+  native *** rsn*(...);
+  native *** n*(...);
+}
+
+-keep class com.batch.android.** { *; }
+-dontwarn com.batch.android.**
+
+-keep class com.appsflyer.** { *; }
+-dontwarn com.appsflyer.**
