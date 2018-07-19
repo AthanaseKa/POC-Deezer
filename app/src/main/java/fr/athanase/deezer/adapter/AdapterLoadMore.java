@@ -1,6 +1,6 @@
 package fr.athanase.deezer.adapter;
 
-import fr.athanase.deezer.object.realmobject.RealmPlaylist;
+import fr.athanase.deezer.model.realm.Playlist;
 import io.realm.RealmList;
 import rx.Observable;
 
@@ -9,7 +9,5 @@ import rx.Observable;
  */
 
 public interface AdapterLoadMore {
-
-    public Observable<RealmList<RealmPlaylist>> loadMore(int index, int id);
-
+    Observable<RealmList<Playlist>> loadMore(int index, int id);
 }

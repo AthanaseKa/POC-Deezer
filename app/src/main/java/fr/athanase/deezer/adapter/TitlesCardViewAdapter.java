@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import fr.athanase.deezer.R;
 import fr.athanase.deezer.adapter.viewholder.TitlesCardViewAdapterViewHolder;
-import fr.athanase.deezer.object.realmobject.RealmTitle;
+import fr.athanase.deezer.model.realm.Title;
 import io.realm.RealmList;
 
 /**
@@ -16,9 +16,9 @@ import io.realm.RealmList;
 
 public class TitlesCardViewAdapter extends RecyclerView.Adapter<TitlesCardViewAdapterViewHolder>{
 
-    private RealmList<RealmTitle> titles;
+    private RealmList<Title> titles;
 
-    public TitlesCardViewAdapter(RealmList<RealmTitle> titles) {
+    public TitlesCardViewAdapter(RealmList<Title> titles) {
         this.titles = titles;
     }
 

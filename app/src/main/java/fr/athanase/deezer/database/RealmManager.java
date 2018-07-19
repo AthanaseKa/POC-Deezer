@@ -1,9 +1,8 @@
 package fr.athanase.deezer.database;
 
-import fr.athanase.deezer.object.realmobject.RealmPlaylist;
-import fr.athanase.deezer.object.realmobject.RealmUser;
+import fr.athanase.deezer.model.realm.Playlist;
+import fr.athanase.deezer.model.realm.User;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import rx.Observable;
 import timber.log.Timber;
@@ -13,13 +12,13 @@ import timber.log.Timber;
  */
 
 public class RealmManager {
-    private static RealmManager instance;
+    //private static RealmManager instance;
 
     private RealmManager() {
     }
 
     public static RealmManager getInstance() {
-        if (instance != null)
+        /*if (instance != null)
             return instance;
         else {
             instance = new RealmManager();
@@ -27,10 +26,11 @@ public class RealmManager {
                     .deleteRealmIfMigrationNeeded()
                     .build());
             return instance;
-        }
+        }*/
+        return null;
     }
 
-    public Observable<RealmUser> insertUser(RealmUser user) {
+    public Observable<User> insertUser(User user) {
         return Observable.create(subscriber -> {
             Timber.e("INSERT : " + user.getId() + " - " + user.getName());
             Realm realmInstance = Realm.getDefaultInstance();
@@ -43,11 +43,11 @@ public class RealmManager {
         });
     }
 
-    public Observable<RealmUser> getUserById(int userId) {
+    public Observable<User> getUserById(int userId) {
         return Observable.create(subscriber -> {
             Realm realmInstance = Realm.getDefaultInstance();
             realmInstance.beginTransaction();
-            RealmUser user = realmInstance.where(RealmUser.class).equalTo("id", userId).findFirst();
+            User user = realmInstance.where(User.class).equalTo("id", userId).findFirst();
             if (user != null) {
                 user = realmInstance.copyFromRealm(user);
             }
@@ -58,10 +58,10 @@ public class RealmManager {
         });
     }
 
-    public Observable<RealmUser> updateUserPlaylistData(int userId, RealmList<RealmPlaylist> playlists) {
+    public Observable<User> updateUserPlaylistData(int userId, RealmList<Playlist> playlists) {
         return Observable.create(subscriber -> {
            Realm realmInstance = Realm.getDefaultInstance();
-            RealmUser user = realmInstance.where(RealmUser.class).equalTo("id", userId).findFirst();
+            User user = realmInstance.where(User.class).equalTo("id", userId).findFirst();
             realmInstance.beginTransaction();
             if (user != null) {
                 user = realmInstance.copyFromRealm(user);

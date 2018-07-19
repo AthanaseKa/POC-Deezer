@@ -15,7 +15,7 @@ import fr.athanase.deezer.R;
 import fr.athanase.deezer.Tools;
 import fr.athanase.deezer.adapter.TitlesCardViewAdapter;
 import fr.athanase.deezer.manager.PlaylistManager;
-import fr.athanase.deezer.object.realmobject.RealmPlaylist;
+import fr.athanase.deezer.model.realm.Playlist;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -50,11 +50,10 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
     }
 
     private void retrievePlaylist() {
-        PlaylistManager.getInstance()
-                .getPlaylistById(getIntent().getExtras().getLong(Tools.INTENT_PLAYLIST_ID))
+        PlaylistManager.Companion.getPlaylistById(getIntent().getExtras().getLong(Tools.INTENT_PLAYLIST_ID))
+                .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(bindToLifecycle())
                 .subscribe(playlist -> {
                     Timber.e(playlist.toString());
                     loadPlaylist(playlist);
@@ -64,15 +63,15 @@ public class DisplayPlaylistActivity extends RxAppCompatActivity {
                 });
     }
 
-    private void loadPlaylist(RealmPlaylist playlist) {
+    private void loadPlaylist(Playlist playlist) {
         tvTitle.setText(playlist.getTitle());
         tvCreatorName.setText(playlist.getCreatorName());
-        tvTracksNumber.setText(Integer.toString(playlist.getNb_tracks()));
+        tvTracksNumber.setText(Integer.toString(playlist.getNbTracks()));
         Glide.with(this).load(playlist.getPicture()).centerCrop().into(ivHeaderPicture);
 
     }
 
-    private void initRecyclerView(RealmPlaylist realmPlaylist) {
+    private void initRecyclerView(Playlist realmPlaylist) {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
