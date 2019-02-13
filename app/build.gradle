@@ -42,10 +42,10 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Test
+    testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.19.0'
 
     //Logs Timber
@@ -87,8 +87,6 @@ dependencies {
     //implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     //implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     //implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 kapt.generateStubs = true

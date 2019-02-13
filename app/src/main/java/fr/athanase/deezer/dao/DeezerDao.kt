@@ -60,7 +60,7 @@ class DeezerDao {
             }
         }
 
-        inline fun <reified Class: List<RealmObject>> saveMultipleItemsTransaction(data: Class): Class? {
+        inline fun <reified Class: List<RealmObject>> saveMultipleItemsTransaction(data: Class): Class {
             return startTransaction {
                 it.copyToRealmOrUpdate(data)
                 return data
@@ -68,10 +68,10 @@ class DeezerDao {
         }
 
         inline fun <reified Class: RealmObject> saveSingleItemTransaction(data: Class): Class? {
-            return startTransaction {
-                it.copyToRealmOrUpdate(data)
-                return data
-            }
+            return saveMultipleItemsTransaction(listOf(data))
+                    .flatMap {
+                        it.
+                    }
         }
 
         inline fun <reified Class: RealmObject> getMultipleItemsTransaction(query: Realm.() -> RealmQuery<Class> = { where(Class::class.java) }): List<Class>? {

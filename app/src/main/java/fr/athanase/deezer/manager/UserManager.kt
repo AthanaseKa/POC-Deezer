@@ -2,6 +2,7 @@ package fr.athanase.deezer.manager
 
 import fr.athanase.deezer.dao.DeezerDao
 import fr.athanase.deezer.dao.DeezerQueries
+import fr.athanase.deezer.dao.DeezerQueries.Companion.getByIdQuery
 import fr.athanase.deezer.model.json.PlaylistJson
 import fr.athanase.deezer.model.realm.Playlist
 import fr.athanase.deezer.model.realm.User
@@ -13,7 +14,7 @@ class UserManager {
     companion object {
         fun getUser(userId: Int): Observable<User> {
             val user = DeezerDao.getSingleItemTransaction2 {
-                DeezerQueries.getByIdQuery<User>(userId).invoke(this)
+                getByIdQuery<User>(userId).invoke(this)
             }
 
             return user.flatMap { realmUser ->
