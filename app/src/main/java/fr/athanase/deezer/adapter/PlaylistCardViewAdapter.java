@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 
 import fr.athanase.deezer.R;
 import fr.athanase.deezer.adapter.viewholder.PlaylistCardViewAdapterViewHolder;
-import fr.athanase.deezer.object.realmobject.RealmUser;
+import fr.athanase.deezer.model.realm.User;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -22,7 +22,7 @@ import timber.log.Timber;
 
 public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardViewAdapterViewHolder> {
 
-    private RealmUser realmUser;
+    private User realmUser;
     private AdapterIdCallBack callBack;
     private Context context;
     private AdapterLoadMore adapterLoadMore;
@@ -35,7 +35,7 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
     int pastVisiblesItems, visibleItemCount, totalItemCount;
 
 
-    public PlaylistCardViewAdapter(RealmUser realmUser, AdapterIdCallBack callBack,
+    public PlaylistCardViewAdapter(User realmUser, AdapterIdCallBack callBack,
                                    Context context, AdapterLoadMore loadMore,
                                    RecyclerView recyclerView) {
         this.realmUser = realmUser;
@@ -60,7 +60,7 @@ public class PlaylistCardViewAdapter extends RecyclerView.Adapter<PlaylistCardVi
     @Override
     public void onBindViewHolder(PlaylistCardViewAdapterViewHolder holder, int position) {
         holder.playlistTitle.setText(realmUser.getPlaylists().get(position).getTitle());
-        holder.playlistTracksNb.setText(Integer.toString(realmUser.getPlaylists().get(position).getNb_tracks()));
+        holder.playlistTracksNb.setText(Integer.toString(realmUser.getPlaylists().get(position).getNbTracks()));
         Glide.with(context).load(realmUser.getPlaylists().get(position).getPicture()).centerCrop().into(holder.playlistImageView);
         
         holder.cardview.setOnClickListener(v -> {

@@ -19,8 +19,8 @@ import fr.athanase.deezer.adapter.AdapterIdCallBack;
 import fr.athanase.deezer.adapter.AdapterLoadMore;
 import fr.athanase.deezer.adapter.PlaylistCardViewAdapter;
 import fr.athanase.deezer.manager.UserManager;
-import fr.athanase.deezer.object.realmobject.RealmPlaylist;
-import fr.athanase.deezer.object.realmobject.RealmUser;
+import fr.athanase.deezer.model.realm.Playlist;
+import fr.athanase.deezer.model.realm.User;
 import io.realm.RealmList;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,8 +41,8 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
 
 
     @Override
-    public Observable<RealmList<RealmPlaylist>> loadMore(int index, int id) {
-        return UserManager.getInstance().getNextPlaylists(index, id);
+    public Observable<RealmList<Playlist>> loadMore(int index, int id) {
+        return UserManager.Companion.getNextPlaylists(index, id);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
     private void retrieveUser() {
         int userId = this.getArguments().getInt(Tools.BUNDLE_USER_ID);
 
-        UserManager.getInstance().getUserById(userId)
+        UserManager.Companion.getUserById(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .compose(bindToLifecycle())
@@ -86,7 +86,7 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
                         });
     }
 
-    private void initRecyclerView(RealmUser realmUser) {
+    private void initRecyclerView(User realmUser) {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

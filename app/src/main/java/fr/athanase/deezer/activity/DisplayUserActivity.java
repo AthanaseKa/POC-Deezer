@@ -21,9 +21,7 @@ import fr.athanase.deezer.R;
 import fr.athanase.deezer.Tools;
 import fr.athanase.deezer.adapter.PlaylistViewPagerAdapter;
 import fr.athanase.deezer.manager.UserManager;
-import fr.athanase.deezer.object.realmobject.RealmPlaylist;
-import fr.athanase.deezer.object.realmobject.RealmUser;
-import io.realm.RealmList;
+import fr.athanase.deezer.model.realm.User;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,7 +44,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     @BindView(R.id.display_user_viewpager)
     ViewPager viewPager;
 
-    private Observable <RealmUser> user;
+    private Observable <User> user;
     private int userId;
 
 
@@ -63,8 +61,10 @@ public class DisplayUserActivity extends RxAppCompatActivity {
         if (userId == -1)
             noUserToLoad();
         else {
-            user = UserManager.getInstance().getUserById(userId);
-            user.observeOn(AndroidSchedulers.mainThread())
+            UserManager.Companion.getUserById(userId)
+                    .compose(bindToLifecycle())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             user1 -> {
                                 if (user1 != null) {
@@ -78,7 +78,7 @@ public class DisplayUserActivity extends RxAppCompatActivity {
         }
     }
 
-    private void loadHeader(RealmUser user) {
+    private void loadHeader(User user) {
         userCountry.setText(user.getCountry());
         userName.setText(user.getName());
         Glide
@@ -103,9 +103,10 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void retrievePlaylist(int userId) {
-        Observable<RealmList<RealmPlaylist>> playlist = UserManager.getInstance().getUserPlaylists(userId);
-        playlist.observeOn(AndroidSchedulers.mainThread())
+        UserManager.Companion.getUserPlaylists(userId)
+                .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(playlists -> {
                     loadLists();
                 },

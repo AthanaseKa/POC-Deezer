@@ -47,10 +47,6 @@ public class ResearchUserActivity extends RxAppCompatActivity {
         setContentView(R.layout.research_user_activity);
         ButterKnife.bind(this);
 
-        editText = findViewById(R.id.research_user_editext);
-        title = findViewById(R.id.research_user_textview);
-        button = findViewById(R.id.research_user_button);
-        errorTitle = findViewById(R.id.research_user_error_textview);
         Realm.init(getApplicationContext());
     }
 
@@ -98,16 +94,16 @@ public class ResearchUserActivity extends RxAppCompatActivity {
     protected void onStart() {
         super.onStart();
         button.setOnClickListener((view) ->
-                UserManager.getInstance().getUser(mUserId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(bindToLifecycle())
-                .subscribe(
-                        user -> {
-                            saveUserId(user.getId());
-                            switchActivity();
-                        },
-                        error -> Timber.e(error, error.getMessage())));
+                UserManager.Companion.getUser(mUserId)
+                        .compose(bindToLifecycle())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                user -> {
+                                    saveUserId(user.getId());
+                                    switchActivity();
+                                },
+                                error -> Timber.e(error, error.getMessage())));
         if (checkIfUserAlreadyConnected()) {
             switchActivity();
         }
