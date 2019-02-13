@@ -5,12 +5,12 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'fr.athanase.deezer'
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -60,19 +60,20 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.2.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.4.0'
     //implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     implementation 'com.squareup.okhttp:okhttp:2.7.2'
     // Compatibility
-    implementation "com.android.support:appcompat-v7:${SUPPORT_PACKAGE_VERSION}"
-    implementation "com.android.support:design:${SUPPORT_PACKAGE_VERSION}"
-    implementation "com.android.support:recyclerview-v7:${SUPPORT_PACKAGE_VERSION}"
-    implementation "com.android.support:cardview-v7:${SUPPORT_PACKAGE_VERSION}"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     //Google Play Service
     implementation "com.google.android.gms:play-services-auth:${GOOGLE_PACKAGE_VERSION}"
     implementation "com.google.android.gms:play-services-analytics:${GOOGLE_PACKAGE_VERSION}"
@@ -80,7 +81,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:${GOOGLE_PACKAGE_VERSION}"
     //Reactive programming
     implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'io.reactivex:rxjava:1.3.0'
+    implementation 'io.reactivex:rxjava:1.3.8'
     implementation 'com.jakewharton.rxbinding:rxbinding:1.0.1'
     implementation 'com.trello:rxlifecycle:1.0'
     implementation 'com.trello:rxlifecycle-components:1.0'

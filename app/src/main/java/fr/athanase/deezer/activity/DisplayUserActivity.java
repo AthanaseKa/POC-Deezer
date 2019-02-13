@@ -3,9 +3,6 @@ package fr.athanase.deezer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -13,13 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.athanase.deezer.R;
 import fr.athanase.deezer.Tools;
-import fr.athanase.deezer.adapter.PlaylistViewPagerAdapter;
 import fr.athanase.deezer.manager.UserManager;
 import fr.athanase.deezer.model.realm.User;
 import rx.Observable;
@@ -89,10 +87,9 @@ public class DisplayUserActivity extends RxAppCompatActivity {
     }
 
     private void loadLists() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        PlaylistViewPagerAdapter playlistViewPagerAdapter = new PlaylistViewPagerAdapter(fragmentManager, userId);
+        /*PlaylistViewPagerAdapter playlistViewPagerAdapter = new PlaylistViewPagerAdapter(getSupportFragmentManager(), userId);
         viewPager.setAdapter(playlistViewPagerAdapter);
-        tableLayout.setupWithViewPager(viewPager);
+        tableLayout.setupWithViewPager(viewPager);*/
     }
 
     private void noUserToLoad() {

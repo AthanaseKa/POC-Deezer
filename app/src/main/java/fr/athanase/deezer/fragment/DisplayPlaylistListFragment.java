@@ -2,14 +2,13 @@ package fr.athanase.deezer.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle.components.support.RxFragment;
-
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.athanase.deezer.R;
@@ -23,15 +22,12 @@ import fr.athanase.deezer.model.realm.Playlist;
 import fr.athanase.deezer.model.realm.User;
 import io.realm.RealmList;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by vincent on 12/04/2017.
  */
 
-public class DisplayPlaylistListFragment extends RxFragment implements AdapterIdCallBack, AdapterLoadMore {
+public class DisplayPlaylistListFragment extends Fragment implements AdapterIdCallBack, AdapterLoadMore {
 
     @BindView(R.id.display_user_playlist_recyclerview)
     RecyclerView mRecyclerView;
@@ -75,7 +71,7 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
     private void retrieveUser() {
         int userId = this.getArguments().getInt(Tools.BUNDLE_USER_ID);
 
-        UserManager.Companion.getUserById(userId)
+        /*UserManager.Companion.getUserById(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .compose(bindToLifecycle())
@@ -83,7 +79,7 @@ public class DisplayPlaylistListFragment extends RxFragment implements AdapterId
                         this::initRecyclerView,
                         error -> {
                             Timber.e(error, error.getMessage());
-                        });
+                        });*/
     }
 
     private void initRecyclerView(User realmUser) {
