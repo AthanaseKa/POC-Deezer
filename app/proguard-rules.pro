@@ -75,12 +75,6 @@
 -keep class fr.snapp.igraal.entity.** { *; }
 -keep class fr.snapp.igraal.network.request.** { *; }
 
--dontwarn android.support.v8.renderscript.*
--keepclassmembers class android.support.v8.renderscript.RenderScript {
-  native *** rsn*(...);
-  native *** n*(...);
-}
-
 -keep class com.batch.android.** { *; }
 -dontwarn com.batch.android.**
 

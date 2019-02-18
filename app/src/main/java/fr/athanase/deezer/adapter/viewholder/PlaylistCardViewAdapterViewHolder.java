@@ -12,8 +12,6 @@ import fr.athanase.deezer.R;
 /**
  * Created by vincent on 18/04/2017.
  */
-
-
 public class PlaylistCardViewAdapterViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.display_user_playlist_cardview_title)
