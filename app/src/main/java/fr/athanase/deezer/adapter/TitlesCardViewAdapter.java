@@ -1,10 +1,10 @@
 package fr.athanase.deezer.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
 import fr.athanase.deezer.R;
 import fr.athanase.deezer.adapter.viewholder.TitlesCardViewAdapterViewHolder;
 import fr.athanase.deezer.model.realm.Title;

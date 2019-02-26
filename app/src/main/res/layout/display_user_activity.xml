@@ -30,15 +30,13 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/display_user_tablayout">
-    </android.support.design.widget.TabLayout>
+        android:id="@+id/display_user_tablayout"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/display_user_viewpager">
-    </android.support.v4.view.ViewPager>
+        android:id="@+id/display_user_viewpager"/>
 </LinearLayout>

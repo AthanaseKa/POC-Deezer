@@ -9,10 +9,11 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$GRADLE_VERSION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$KOTLIN_VERSION"
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' // TO REMOVE
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1' // TO REMOVE
-        classpath 'com.google.gms:google-services:3.3.0'
-        classpath "io.realm:realm-gradle-plugin:4.1.0"
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.0.0' // TO REMOVE
+        classpath 'com.google.gms:google-services:4.2.0'
+        classpath "io.realm:realm-gradle-plugin:5.5.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -23,6 +24,7 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
         maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
+        maven { url "https://kotlin.bintray.com/kotlinx" }
 
         google()
     }

@@ -11,7 +11,6 @@ class DeezerQueries {
             return { where(Class::class.java).equalTo("id", value) }
         }
 
-        // this is a sample for iGraal
         fun getByUrlNameQuery(value: String) : Realm.() -> RealmQuery<Playlist> {
             return { where(Playlist::class.java).equalTo("urlName", value) }
         }

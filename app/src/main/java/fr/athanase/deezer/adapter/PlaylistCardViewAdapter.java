@@ -1,14 +1,14 @@
 package fr.athanase.deezer.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import fr.athanase.deezer.R;
 import fr.athanase.deezer.adapter.viewholder.PlaylistCardViewAdapterViewHolder;
 import fr.athanase.deezer.model.realm.User;

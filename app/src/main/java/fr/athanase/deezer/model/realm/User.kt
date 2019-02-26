@@ -17,7 +17,7 @@ open class User: RealmObject {
     constructor()
 
     constructor(user: UserJson) {
-        this.id = user.id
+        this.id = user.id ?: 0
         this.name = user.name?.let{ user.name } ?: ""
         this.country = user.country?.let{ user.country } ?: ""
         this.picture = user.picture
