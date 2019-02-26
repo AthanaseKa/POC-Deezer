@@ -10,6 +10,13 @@ import kotlinx.coroutines.async
 
 class DeezerCoroutineDao {
     companion object {
+        internal fun saveUserSync(user: User): User? {
+            Realm.getDefaultInstance().executeTransaction {
+                it.copyToRealmOrUpdate(user)
+            }
+            return user
+        }
+
         fun saveUserAsync(user: User): Deferred<User?> = doInBackgroundAsync {
             Realm.getDefaultInstance().executeTransaction {
                 it.copyToRealmOrUpdate(user)

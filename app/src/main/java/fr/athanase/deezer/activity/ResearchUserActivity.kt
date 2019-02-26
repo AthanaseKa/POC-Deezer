@@ -30,15 +30,14 @@ class ResearchUserActivity: AppCompatActivity() {
     }
 
     private fun fetchUser(id: Int) {
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) { DeezerManager.fetchUser(id) }?.let {
-                displayToast(it.name)
-                switchActivity(it.id)
-            } ?: displayToast("Oups")
-            /*DeezerManager.fetchUser(id)?.let {
-                displayToast(it.name)
-                switchActivity(it.id)
-            } ?: displayToast("Oups")*/
+        GlobalScope.launch(Dispatchers.IO) {
+            val user = DeezerManager.fetchUser(id)
+            withContext(Dispatchers.Main) {
+                user?.let {
+                    displayToast(it.name)
+                    switchActivity(it.id)
+                } ?: displayToast("Oups")
+            }
         }
     }
 

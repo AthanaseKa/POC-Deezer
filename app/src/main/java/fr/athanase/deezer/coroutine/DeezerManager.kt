@@ -1,6 +1,7 @@
 package fr.athanase.deezer.coroutine
 
 import fr.athanase.deezer.coroutine.api.ApiFactory
+import fr.athanase.deezer.coroutine.api.DeezerKtorApi
 import fr.athanase.deezer.coroutine.dao.DeezerCoroutineDao
 import fr.athanase.deezer.model.realm.User
 import kotlinx.coroutines.CoroutineScope
@@ -17,17 +18,15 @@ fun <T> doInBackgroundAsync(method: () -> T): Deferred<T> {
 class DeezerManager {
     companion object {
         suspend fun fetchUser(id: Int): User? {
-            val user = ApiFactory.deezerUser.getUserAsync(id).await()
-            if (user.isSuccessful) {
-                user.body()?.let {
-                    val realmUser = User(it)
-                    return DeezerCoroutineDao.saveUserAsync(realmUser).await()
-                }
+            return DeezerKtorApi.getUser(id).let {
+                return@let DeezerCoroutineDao.saveUserSync(it)
             }
-            else {
-                throw Exception("API error")
+        }
+
+        suspend fun fetchUser2(id: Int): User? {
+            return ApiFactory.deezerUser.getUserAsync(id).let {
+                return@let DeezerCoroutineDao.saveUserSync(it)
             }
-            throw Exception("Failed to fetch")
         }
     }
 }
